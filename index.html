@@ -10,11 +10,18 @@
 
 <body>
     <h1 id="heading">MAZE GAME!</h1>
+<div class="controls">
+    <button id="start-btn">Regenerate</button>
+    <button id="solve-btn">Solve Maze</button>
+    <label>
+        Speed:
+        <input type="range" id="speed-slider" min="1" max="100" value="80">
+    </label>
+</div>
+
     <canvas id="grid-box" width="600" height="600"></canvas>
 
-    <script src="app.js"></script>
     <script src="grid.js"></script>
-    <script src="ui.js"></script>
 </body>
 
 </html>
