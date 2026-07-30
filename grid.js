@@ -9,10 +9,26 @@ ctx.fillStyle = "white"
 
 createData()
 currentCell = grid[0][0]
-currentCell.visited = true;
-const neighbors = getNeighbors()
+currentCell.visited = true
+currentCell.wall = false
 
-drawGrid()
+generateMaze()
+function generateMaze() {
+    const neighbors = getNeighbors()
+
+    if (neighbors.length === 0) {
+        return
+    }
+
+    const nextCell = randomMove(neighbors)
+    setTimeout(() => {
+        moveTo(nextCell)
+        drawGrid()
+        generateMaze()
+    }, 50)
+}
+
+// drawGrid()
 
 function createData() {
     let rows
@@ -56,10 +72,9 @@ function getNeighbors() {
         neighbors.push(grid[currentCell.row][currentCell.col - 1])
     }
 
-    if (currentCell.col < 29 && grid[currentCell.row ][currentCell.col + 1].visited === false) {
+    if (currentCell.col < 29 && grid[currentCell.row][currentCell.col + 1].visited === false) {
         neighbors.push(grid[currentCell.row][currentCell.col + 1])
     }
- 
     return neighbors
 
 }
@@ -72,3 +87,14 @@ function drawGrid() {
         })
     });
 }
+
+function randomMove(neighbors) {
+    let block = Math.floor(Math.random() * neighbors.length)
+    return neighbors[block]
+}
+
+function moveTo(nextCell) {
+    currentCell = nextCell
+    currentCell.visited = true
+    currentCell.wall = false
+} 
