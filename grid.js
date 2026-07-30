@@ -1,5 +1,7 @@
 const grid = []
+const stack = []
 const gridBox = document.getElementById("grid-box")
+const heading = document.getElementById("heading")
 const ctx = gridBox.getContext("2d"); // 1. Get the drawing context
 let currentCell
 
@@ -14,14 +16,22 @@ currentCell.wall = false
 
 generateMaze()
 function generateMaze() {
-    const neighbors = getNeighbors()
+    let neighbors = getNeighbors()
 
-    if (neighbors.length === 0) {
-        return
-    }
+while (neighbors.length === 0 && stack.length > 0) {
+    currentCell = stack.pop();
+    neighbors = getNeighbors();
+}
+
+if (neighbors.length === 0 && stack.length === 0) {
+    drawGrid(); // Final draw
+    heading.textContent = "Maze Generation Complete!";
+    return;
+  }
 
     const nextCell = randomMove(neighbors)
     setTimeout(() => {
+        stack.push(currentCell)
         moveTo(nextCell)
         drawGrid()
         generateMaze()
